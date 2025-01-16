@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 
 COPY app.py /code/
 
-CMD ["flask", "run"]
+CMD ["flask", "run", "-p", "80"]
