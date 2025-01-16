@@ -1,0 +1,33 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Ejecutar el pipeline cuando se haga un push a la rama principal
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Chequear el código fuente
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Configurar Docker
+    - name: Log in to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # 3. Construir la imagen Docker
+    - name: Build Docker image
+      run: |
+        docker build -t lukwn/labo9:latest ./app
+
+    # 4. Subir la imagen a DockerHub
+    - name: Push Docker image
+      run: |
+        docker push lukwn/labo9:latest
